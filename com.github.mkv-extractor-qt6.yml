@@ -5,15 +5,6 @@ sdk: org.kde.Sdk
 command: mkv-extractor-qt6
 default-branch: stable
 rename-icon: mkv-extractor-qt6
-add-extensions:
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    add-ld-path: .
-    version: '26.08'
-    autodownload: true
-    autodelete: false
-cleanup-commands:
-  - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
 cleanup:
   - /bin/cmark
   - /gems
