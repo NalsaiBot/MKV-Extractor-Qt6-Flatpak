@@ -141,6 +141,8 @@ modules:
           - sed '/^### Génération de l.AppImage/,$d' -i build.sh
           - sed 's|BDSup2Sub.jar|bdsup2sub++|g' -i *.py
           - sed 's|^Icon=.*|Icon=mkv-extractor-qt6|' -i mkv-extractor-qt6.desktop
+      - type: patch
+        path: fix-command-execution.patch
       - type: file
         path: com.github.mkv-extractor-qt6.metainfo.xml
     modules:

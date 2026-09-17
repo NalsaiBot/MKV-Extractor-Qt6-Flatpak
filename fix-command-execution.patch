@@ -1,0 +1,83 @@
+From: nalsai
+Subject: Fix command creation for unnamed tracks and remuxing
+
+Audio tracks without a title use their numeric sampling frequency as the
+display name. Normalize it to text before storing it, and defensively convert
+all track names used in output filenames. Also import Qt for the remux dialogs.
+
+--- a/CommandMixin.py
++++ b/CommandMixin.py
+@@ -3,7 +3,7 @@
+ """Mixin de création des commandes d'extraction/conversion MKV."""
+ 
+ import state
+-from PySide6.QtCore import QFile, QFileInfo, QStorageInfo, QThread
++from PySide6.QtCore import QFile, QFileInfo, QStorageInfo, QThread, Qt
+ from PySide6.QtWidgets import QCheckBox, QMessageBox, QPushButton
+ from PySide6.QtGui import QIcon
+ from QFileDialogCustom.QFileDialogCustom import QFileDialogCustom
+@@ -126,7 +126,7 @@
+             if Select[2] == "video-x-generic":
+                 # Ajout du fichier à la liste
+                 FileWithoutSlash = "{}_video_{}.mkv".format(
+-                    Select[0], Select[4].replace("/", "-")
++                    Select[0], str(Select[4]).replace("/", "-")
+                 )
+                 File = "{}/{}".format(state.Configs.value("OutputFolder"), FileWithoutSlash)
+                 state.AllTempFiles.append(File)
+@@ -152,7 +152,7 @@
+             elif Select[2] == "audio-x-generic":
+                 # Ajout du fichier à la liste
+                 FileWithoutSlash = "{}_audio_{}".format(
+-                    Select[0], Select[4].replace("/", "-")
++                    Select[0], str(Select[4]).replace("/", "-")
+                 )
+                 File = "{}/{}.{}".format(
+                     state.Configs.value("OutputFolder"), FileWithoutSlash, Select[6]
+@@ -236,7 +236,7 @@
+             ## Traitement des pistes sous titres
+             elif Select[2] == "text-x-generic":
+                 FileWithoutSlash = "{}_subtitles_{}".format(
+-                    Select[0], Select[4].replace("/", "-")
++                    Select[0], str(Select[4]).replace("/", "-")
+                 )
+ 
+                 # Dans le cas de sous titres de fichiers sub
+@@ -495,7 +495,7 @@
+             else:
+                 # Ajout du fichier à la liste
+                 FileWithoutSlash = "{}_{}".format(
+-                    Select[0], Select[4].replace("/", "-")
++                    Select[0], str(Select[4]).replace("/", "-")
+                 )
+                 File = "{}/{}".format(state.Configs.value("OutputFolder"), FileWithoutSlash)
+                 state.AllTempFiles.append(File)
+@@ -565,7 +565,7 @@
+             ## Pour chaque pgs/sup à convertir en sub
+             for SupInfo in SupConvert:
+                 FileWithoutSlash = "{}_subtitles_{}".format(
+-                    SupInfo[0], SupInfo[1].replace("/", "-")
++                    SupInfo[0], str(SupInfo[1]).replace("/", "-")
+                 )
+ 
+                 # Liste des fichiers sous titres
+@@ -658,7 +658,7 @@
+             ## Pour chaque sub à convertir en srt
+             for SubInfo in SubConvert:
+                 FileWithoutSlash = "{}_subtitles_{}".format(
+-                    SubInfo[0], SubInfo[1].replace("/", "-")
++                    SubInfo[0], str(SubInfo[1]).replace("/", "-")
+                 )
+ 
+                 # Liste des fichiers sous titres
+--- a/TracksMixin.py
++++ b/TracksMixin.py
+@@ -271,7 +271,7 @@
+                         info1 = Track["properties"]["track_name"]
+ 
+                     elif "audio_sampling_frequency" in Track["properties"]:
+-                        info1 = Track["properties"]["audio_sampling_frequency"]
++                        info1 = str(Track["properties"]["audio_sampling_frequency"])
+ 
+                     else:
+                         info1 = ""
