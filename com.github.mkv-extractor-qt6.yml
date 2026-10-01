@@ -117,8 +117,7 @@ modules:
       - install -Dm644 *.py -t /app/share/mkv-extractor-qt6
       - chmod +x /app/share/mkv-extractor-qt6/MKVExtractorQt6.py
       - install -Dm644 Languages/*.qm -t /app/share/mkv-extractor-qt6/Languages
-      - install -Dm644 QFileDialogCustom/*.py QFileDialogCustom/*.qm
-        -t /app/share/mkv-extractor-qt6/QFileDialogCustom
+      - install -Dm644 QFileDialogCustom/*.py QFileDialogCustom/*.qm -t /app/share/mkv-extractor-qt6/QFileDialogCustom
       - install -Dm644 WhatsUp/WhatsUp.py -t /app/share/mkv-extractor-qt6/WhatsUp
       - install -Dm644 img/* -t /app/share/mkv-extractor-qt6/img
       - install -Dm644 icons/mkv-extractor-qt6.png -t /app/share/icons/hicolor/256x256/apps
@@ -182,8 +181,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/ImageMagick/ImageMagick
-            tag: 7.1.1-43
-            commit: a2d96f40e707ba54b57e7d98c3277d3ea6611ace
+            tag: 7.1.2-32
+            commit: ad98b244c995d2e3051757fa3b7855f45b550d24
             x-checker-data:
               type: git
               tag-pattern: ^([\d.]+-\d+)$
@@ -201,7 +200,8 @@ modules:
       - name: mkclean
         buildsystem: simple
         build-commands:
-          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ./
+          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            ./
           - make
           - install -Dm755 mkclean/mkclean "/app/bin/mkclean"
           - install -Dm644 ReadMe.txt "/app/share/licenses/mkclean/License.txt"
@@ -212,7 +212,8 @@ modules:
       - name: mkvalidator
         buildsystem: simple
         build-commands:
-          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ./
+          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            ./
           - make
           - install -Dm755 mkvalidator/mkvalidator "/app/bin/mkvalidator"
           - install -Dm644 ReadMe.txt "/app/share/licenses/mkvalidator/License.txt"
