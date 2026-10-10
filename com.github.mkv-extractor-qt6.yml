@@ -55,8 +55,8 @@ modules:
           - ./b2 -j $FLATPAK_BUILDER_N_JOBS install
         sources:
           - type: archive
-            url: https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.bz2
-            sha256: af57be25cb4c4f4b413ed692fe378affb4352ea50fbe294a11ef548f4d527d89
+            url: https://archives.boost.io/release/1.92.0/source/boost_1_92_0.tar.bz2
+            sha256: 5c1d40cb8e19adbf740a4ec2da35b3e58f3f5804b1dce44deb53df72193cbc6c
             x-checker-data:
               type: anitya
               project-id: 6845
@@ -72,8 +72,8 @@ modules:
           - /bin
         sources:
           - type: archive
-            url: https://github.com/commonmark/cmark/archive/refs/tags/0.31.1.tar.gz
-            sha256: 3da93db5469c30588cfeb283d9d62edfc6ded9eb0edc10a4f5bbfb7d722ea802
+            url: https://github.com/commonmark/cmark/archive/refs/tags/0.31.2.tar.gz
+            sha256: f9bc5ca38bcb0b727f0056100fac4d743e768872e3bacec7746de28f5700d697
             x-checker-data:
               type: anitya
               project-id: 9159
@@ -117,8 +117,7 @@ modules:
       - install -Dm644 *.py -t /app/share/mkv-extractor-qt6
       - chmod +x /app/share/mkv-extractor-qt6/MKVExtractorQt6.py
       - install -Dm644 Languages/*.qm -t /app/share/mkv-extractor-qt6/Languages
-      - install -Dm644 QFileDialogCustom/*.py QFileDialogCustom/*.qm
-        -t /app/share/mkv-extractor-qt6/QFileDialogCustom
+      - install -Dm644 QFileDialogCustom/*.py QFileDialogCustom/*.qm -t /app/share/mkv-extractor-qt6/QFileDialogCustom
       - install -Dm644 WhatsUp/WhatsUp.py -t /app/share/mkv-extractor-qt6/WhatsUp
       - install -Dm644 img/* -t /app/share/mkv-extractor-qt6/img
       - install -Dm644 icons/mkv-extractor-qt6.png -t /app/share/icons/hicolor/256x256/apps
@@ -182,8 +181,8 @@ modules:
         sources:
           - type: git
             url: https://github.com/ImageMagick/ImageMagick
-            tag: 7.1.1-43
-            commit: a2d96f40e707ba54b57e7d98c3277d3ea6611ace
+            tag: 7.1.2-33
+            commit: 211e5b975a0019a88dcef5f84c1193f46738d815
             x-checker-data:
               type: git
               tag-pattern: ^([\d.]+-\d+)$
@@ -201,7 +200,8 @@ modules:
       - name: mkclean
         buildsystem: simple
         build-commands:
-          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ./
+          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            ./
           - make
           - install -Dm755 mkclean/mkclean "/app/bin/mkclean"
           - install -Dm644 ReadMe.txt "/app/share/licenses/mkclean/License.txt"
@@ -212,7 +212,8 @@ modules:
       - name: mkvalidator
         buildsystem: simple
         build-commands:
-          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ./
+          - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            ./
           - make
           - install -Dm755 mkvalidator/mkvalidator "/app/bin/mkvalidator"
           - install -Dm644 ReadMe.txt "/app/share/licenses/mkvalidator/License.txt"
