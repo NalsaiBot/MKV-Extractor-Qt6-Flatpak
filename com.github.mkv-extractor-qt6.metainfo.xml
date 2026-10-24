@@ -86,6 +86,9 @@
   <developer_name>Hizoka</developer_name>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="26.10.18" date="2026-10-24">
+      <description></description>
+    </release>
     <release version="26.04.29a" date="2026-04-30">
       <description>
         <p>Use of Claude Code for:</p>
