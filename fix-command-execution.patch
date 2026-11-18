@@ -1,21 +1,12 @@
 From: nalsai
-Subject: Fix command creation for unnamed tracks and remuxing
+Subject: Normalize track names when creating output filenames
 
-Audio tracks without a title use their numeric sampling frequency as the
-display name. Normalize it to text before storing it, and defensively convert
-all track names used in output filenames. Also import Qt for the remux dialogs.
+Defensively convert all track names used in output filenames to text.
+Upstream v26.11.06 already normalizes audio sampling frequencies and imports
+Qt for the remux dialogs, so those fixes are no longer included here.
 
 --- a/CommandMixin.py
 +++ b/CommandMixin.py
-@@ -3,7 +3,7 @@
- """Mixin de création des commandes d'extraction/conversion MKV."""
- 
- import state
--from PySide6.QtCore import QFile, QFileInfo, QStorageInfo, QThread
-+from PySide6.QtCore import QFile, QFileInfo, QStorageInfo, QThread, Qt
- from PySide6.QtWidgets import QCheckBox, QMessageBox, QPushButton
- from PySide6.QtGui import QIcon
- from QFileDialogCustom.QFileDialogCustom import QFileDialogCustom
 @@ -126,7 +126,7 @@
              if Select[2] == "video-x-generic":
                  # Ajout du fichier à la liste
@@ -70,14 +61,3 @@ all track names used in output filenames. Also import Qt for the remux dialogs.
                  )
  
                  # Liste des fichiers sous titres
---- a/TracksMixin.py
-+++ b/TracksMixin.py
-@@ -271,7 +271,7 @@
-                         info1 = Track["properties"]["track_name"]
- 
-                     elif "audio_sampling_frequency" in Track["properties"]:
--                        info1 = Track["properties"]["audio_sampling_frequency"]
-+                        info1 = str(Track["properties"]["audio_sampling_frequency"])
- 
-                     else:
-                         info1 = ""
